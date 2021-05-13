@@ -1,0 +1,25 @@
+FROM ubuntu:latest
+LABEL maintainer="Byeongmin Ryoo <bmryu0501@gmail.com>"
+
+
+# update & upgrade
+RUN set -xe \
+    && apt -y -qq update \
+    && apt -y -qq upgrade
+
+# set time zone
+RUN set -xe \
+    && apt -y -qq install tzdata
+ENV TZ=Asia/Seoul
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
+    && echo $TZ > /etc/timezone
+
+# set locale UTF-8
+RUN apt -y -qq install locales \
+    && locale-gen en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
+
+# ubuntu unminimize
+RUN yes | unminimize
