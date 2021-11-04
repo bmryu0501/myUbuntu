@@ -67,3 +67,19 @@ RUN set -xe \
 ## ROPgadget
 WORKDIR "/root"
 RUN pip install ropgadget
+#####################
+
+## Customizing vim ##
+WORKDIR "/root"
+RUN set -xe \
+    # cloning Vundle(vim bundle, plugin manager) from github
+    && git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim \
+    # download .vimrc file from my github (what I've made)
+    && wget -O ./.vimrc https://raw.githubusercontent.com/KkoalaB/myUbuntu/master/configuration%20files/.vimrc \
+    # cloning gruvbox (scheme)
+    && git clone https://github.com/morhetz/gruvbox.git ~/.vim/bundle/gruvbox \
+    # vim plugin installation
+    && vim -c 'PluginInstall' -c 'qa!'
+    # set environment variable 'TERM'
+ENV TERM=xterm-256color
+#####################
