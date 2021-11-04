@@ -1,6 +1,7 @@
 FROM ubuntu:latest
 LABEL maintainer="Byeongmin Ryoo <bmryu0501@gmail.com>"
 
+
 # update & upgrade
 RUN set -xe \
     && apt -y -qq update \
@@ -37,33 +38,5 @@ RUN yes | unminimize
 # python3: python3
 # python3-pip: python library downloader (pip3)
 # curl: transferring data from or to a server designed to work without user interaction
-RUN set -xe \ 
-    && apt -y -qq install vim tmux wget tar man sudo net-tools git build-essential python3 python3-pip curl
-
-## Hacking tools ##
-## gdb-peda-pwndbg-gef all in one
-# https://infosecwriteups.com/pwndbg-gef-peda-one-for-all-and-all-for-one-714d71bf36b8
-# by this, you can excute peda, pwndbg, gef as like gdb-peda, gdb-pwndbg, gdb-gef
-WORKDIR "/root"
-RUN git clone https://github.com/soaringk/gdb-peda-pwndbg-gef.git
-WORKDIR "/root/gdb-peda-pwndbg-gef"
-RUN ./install.sh
 RUN set -xe \
-    && cp gdbinit ./../".gdbinit"
-RUN set -xe \
-    && sudo cp gdb-peda /usr/bin/gdb-peda \
-    && sudo cp gdb-pwndbg /usr/bin/gdb-pwndbg \
-    && sudo cp gdb-gef /usr/bin/gdb-gef
-RUN set -xe \
-    && sudo chmod +x /usr/bin/gdb-*
-WORKDIR "/root"
-RUN rm -rf gdb-peda-pwndbg-gef
-
-## Radare2
-WORKDIR "/root"
-RUN set -xe \
-    && sudo apt install -y radare2
-
-## ROPgadget
-WORKDIR "/root"
-RUN pip install ropgadget
+    && apt -y -qq install vim tmux wget tar man sudo net-tools libcurses-perl git build-essential python3 python3-pip curl
