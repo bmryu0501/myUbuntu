@@ -54,3 +54,13 @@ RUN set -xe \
     && vim -c 'PluginInstall' -c 'qa!'
     # set environment variable 'TERM'
 ENV TERM=xterm-256color
+
+# Oh-My-Zsh (zsh)
+RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.2/zsh-in-docker.sh)" -- \
+    -t fox \
+    -p git \
+    -p https://github.com/zsh-users/zsh-autosuggestions \
+    -p https://github.com/zsh-users/zsh-completions
+    # TODO: .zshrc 만들어서 이거도 클론 해야될듯
+
+CMD ["zsh"]
