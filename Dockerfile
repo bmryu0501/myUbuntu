@@ -1,34 +1,34 @@
 #####################################
 #                                   #
 #         bmryu0501/myubuntu        #
-#        for practice security      #
+#         for linux on docker       #
 #                                   #
 #####################################
-
 
 FROM ubuntu:latest
 LABEL maintainer="Byeongmin Ryoo <bmryu0501@gmail.com>"
 
-# update & upgrade
+
+## update & upgrade
 RUN set -xe \
     && apt -y -qq update \
     && apt -y -qq upgrade
 
-# set time zone
+## set time zone
 RUN set -xe \
     && apt -y -qq install tzdata
 ENV TZ=Asia/Seoul
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
     && echo $TZ > /etc/timezone
 
-# set locale UTF-8
+## set locale UTF-8
 RUN apt -y -qq install locales \
     && locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
-# ubuntu unminimize
+## ubuntu unminimize
 RUN yes | unminimize
 
 ## install extensions ##
@@ -45,37 +45,8 @@ RUN yes | unminimize
 # python3: python3
 # python3-pip: python library downloader (pip3)
 # curl: transferring data from or to a server designed to work without user interaction
-RUN set -xe \ 
-    && apt -y -qq install vim tmux wget tar man sudo net-tools git build-essential python3 python3-pip curl
-
-## Hacking tools ##
-## gdb-peda-pwndbg-gef all in one
-# https://infosecwriteups.com/pwndbg-gef-peda-one-for-all-and-all-for-one-714d71bf36b8
-# by this, you can excute peda, pwndbg, gef as like gdb-peda, gdb-pwndbg, gdb-gef
-WORKDIR "/root"
-RUN git clone https://github.com/soaringk/gdb-peda-pwndbg-gef.git
-WORKDIR "/root/gdb-peda-pwndbg-gef"
-RUN ./install.sh
 RUN set -xe \
-    && cp gdbinit ./../".gdbinit"
-RUN set -xe \
-    && sudo cp gdb-peda /usr/bin/gdb-peda \
-    && sudo cp gdb-pwndbg /usr/bin/gdb-pwndbg \
-    && sudo cp gdb-gef /usr/bin/gdb-gef
-RUN set -xe \
-    && sudo chmod +x /usr/bin/gdb-*
-WORKDIR "/root"
-RUN rm -rf gdb-peda-pwndbg-gef
-
-## Radare2
-WORKDIR "/root"
-RUN set -xe \
-    && sudo apt install -y radare2
-
-## ROPgadget
-WORKDIR "/root"
-RUN pip install ropgadget
-#####################
+    && apt -y -qq install vim tmux wget tar man sudo net-tools libcurses-perl git build-essential python3 python3-pip curl
 
 ## Customizing vim ##
 WORKDIR "/root"
@@ -90,4 +61,14 @@ RUN set -xe \
     && vim -c 'PluginInstall' -c 'qa!'
     # set environment variable 'TERM'
 ENV TERM=xterm-256color
-#####################
+
+# Oh-My-Zsh (zsh)
+RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.2/zsh-in-docker.sh)" -- \
+    -t fox \
+    -p git \
+    -p https://github.com/zsh-users/zsh-autosuggestions \
+    -p https://github.com/zsh-users/zsh-completions \
+    -a export TERM=xterm-256color
+    # TODO: .zshrc 만들어서 이거도 클론 해야될듯
+
+CMD ["zsh"]
