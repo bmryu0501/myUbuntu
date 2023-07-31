@@ -54,7 +54,7 @@ RUN set -xe \
     # cloning Vundle(vim bundle, plugin manager) from github
     && git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim \
     # download .vimrc file from my github (what I've made)
-    && wget -O ./.vimrc https://raw.githubusercontent.com/KkoalaB/myUbuntu/master/configuration%20files/.vimrc \
+    && wget -O ~/.vimrc https://raw.githubusercontent.com/KkoalaB/myUbuntu/master/configuration%20files/.vimrc \
     # cloning gruvbox (scheme)
     && git clone https://github.com/morhetz/gruvbox.git ~/.vim/bundle/gruvbox \
     # vim plugin installation
@@ -69,6 +69,6 @@ RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/
     -p https://github.com/zsh-users/zsh-autosuggestions \
     -p https://github.com/zsh-users/zsh-completions \
     -a export TERM=xterm-256color
-    # TODO: .zshrc ���� �̰ŵ� Ŭ�� �ؾߵɵ�
+    # TODO: .zshrc 만들어서 이거도 클론 해야될듯
 
 CMD ["zsh"]
