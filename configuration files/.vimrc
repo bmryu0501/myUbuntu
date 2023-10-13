@@ -33,3 +33,4 @@ set sts=4
 set shiftwidth=4
 set showmatch		"show matched brackets
 set ruler			"show ruler
+set scrolloff=8
